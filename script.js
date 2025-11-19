@@ -1,3 +1,11 @@
+const playButton = document.querySelectorAll("button");
+playButton.forEach((btn) => {
+    btn.addEventListener('click', (event)=>playRound(event))
+})
+
+const div = document.querySelector(".result");
+const score = document.querySelector(".score");
+
 humanScore = 0;
 compScore = 0;
 
@@ -16,41 +24,41 @@ function getComputerChoice(){
     return getMove(rand_num);
 }
 
-function getHumanChoice(){
-    let move = prompt("Your move!");
-    return move;
+function getHumanChoice(event){
+    let choice = event.target;
+    return choice.className;
 }
 
-function playRound(human_choice, computer_choice){
-    hum_choice = human_choice();
-    comp_choice = computer_choice();
+function playRound(event){
+    hum_choice = getHumanChoice(event);
+    comp_choice = getComputerChoice();
     switch(hum_choice){
         case "rock":{
             if (comp_choice == "paper"){
-                console.log("You lose, paper beats rock!");
+                div.textContent = "You lose, paper beats rock!";
                 compScore++;
             }
             else if(comp_choice == "scissors"){
-                console.log("You win, rock beats scissor.");
+                div.textContent = "You win, rock beats scissor.";
                 humanScore++;
             }
             else{
-                console.log("Draw!");
+                div.textContent = "Draw!";
             }
             break;
         }
 
         case "paper":{
             if (comp_choice == "rock"){
-                console.log("You win, paper beats rock!");
+                div.textContent = "You win, paper beats rock!";
                 humanScore++
             }
             else if(comp_choice == "scissors"){
-                console.log("You lose, scissors beats paper.");
+                div.textContent = "You lose, scissors beats paper.";
                 compScore++;
             }
             else{
-                console.log("Draw!");
+                div.textContent = "Draw!";
             }
             break;
 
@@ -58,39 +66,33 @@ function playRound(human_choice, computer_choice){
 
         case "scissors":{
             if (comp_choice == "rock"){
-                console.log("You lost, rock beats scissors!");
+                div.textContent = "You lost, rock beats scissors!";
                 compScore++;
             }
             else if(comp_choice == "scissors"){
-                console.log("Draw");
+                div.textContent = "Draw";
             }
             else{
-                console.log("You win, scissors beats paper");
+                div.textContent = "You win, scissors beats paper";
                 humanScore++;
             }
             break;
         }
     }
+    score.textContent = `You : ${humanScore}\n
+                         Computer : ${compScore}`; 
+    if(compScore >= 5){
+        div.textContent = "Computer Won!";
+        compScore = 0;
+    }
+    else if(humanScore >= 5){
+        div.textContent = "You Won!";
+        humanScore = 0;
+    }
 
 }
 
-function playGame(){
-    for(let i = 0; i < 5; i++){
-    let hum_choice = getHumanChoice;
-    let comp_choice = getComputerChoice;
-        playRound(hum_choice, comp_choice);
-    }
 
-    if(humanScore > compScore){
-        console.log("You win");
-    }
-    else if(humanScore < compScore){
-        console.log("You lose");
-    }
-    else{
-        console.log("Draw");
-    }
-}
 
-playGame();
+
 
